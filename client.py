@@ -4,9 +4,19 @@ import requests
 import platform
 
 
+import movinterface as mi
+
+
 print("Client is running")
 
 host, port = ('192.168.137.1', 8808)
+
+
+def init():
+    match platform.node():
+        case "esieabot-bcc6b4":
+            return {"mode": "bertha", "shots_per_reload":1, "pins":{"reload_button": 26}}
+
 
 
 
@@ -61,11 +71,14 @@ def server_request(host, port, data=None):
 
 
 def apply_instructions(data):
-    print(data)
+    data = json.loads(data)
+
+    req = data["req"]   #list
 
 
 
-
-server_request(host, port)
+config = init()
+while True:
+    server_request(host, port)
 
 
